@@ -44,7 +44,10 @@ export class TasksService {
     return task;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(id: number): Promise<Task> {
+    const task = await this.findOne(id);
+    await task.remove();
+
+    return task;
   }
 }
