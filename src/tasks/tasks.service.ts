@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Task } from './entities/task.entity';
+import { TaskStatus } from './tasks-status.enum';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { title, description } = createTaskDto;
+
+    const task = Task.create({
+      title,
+      description,
+      status: TaskStatus.OPEN,
+    });
+
+    await task.save();
+    return task;
   }
 
   findAll() {
