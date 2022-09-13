@@ -19,8 +19,9 @@ export class TasksService {
     return task;
   }
 
-  findAll() {
-    return `This action returns all tasks`;
+  async findAll(): Promise<Task[]> {
+    const tasks = await Task.find();
+    return tasks;
   }
 
   findOne(id: number) {
