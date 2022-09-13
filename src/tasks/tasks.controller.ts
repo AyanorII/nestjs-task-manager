@@ -40,7 +40,7 @@ export class TasksController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<Task> {
+  async remove(@Param('id') id: number): Promise<void> {
     return this.tasksService.remove(id);
   }
 }
