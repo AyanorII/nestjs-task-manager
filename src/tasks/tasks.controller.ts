@@ -31,9 +31,12 @@ export class TasksController {
     return this.tasksService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  @Patch(':id/status')
+  async updateStatus(
+    @Param('id') id: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
+    return this.tasksService.updateStatus(id, updateTaskDto);
   }
 
   @Delete(':id')

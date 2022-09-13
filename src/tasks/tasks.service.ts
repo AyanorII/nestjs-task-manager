@@ -34,8 +34,14 @@ export class TasksService {
     return task;
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async updateStatus(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    const { status } = updateTaskDto;
+
+    const task = await this.findOne(id);
+    task.status = status;
+    await task.save();
+
+    return task;
   }
 
   remove(id: number) {
