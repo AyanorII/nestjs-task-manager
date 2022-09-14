@@ -35,16 +35,17 @@ export class TasksController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Task> {
-    return this.tasksService.findOne(id);
+  async findOne(@Param('id') id: number, @GetUser() user: User): Promise<Task> {
+    return this.tasksService.findOne(id, user);
   }
 
   @Patch(':id/status')
   async updateStatus(
     @Param('id') id: number,
     @Body() updateTaskDto: UpdateTaskDto,
+    @GetUser() user: User,
   ): Promise<Task> {
-    return this.tasksService.updateStatus(id, updateTaskDto);
+    return this.tasksService.updateStatus(id, updateTaskDto, user);
   }
 
   @Delete(':id')
