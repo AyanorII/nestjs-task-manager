@@ -1,3 +1,7 @@
+import {
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { AuthCredentialsDto } from '../dto/auth-credentials.dto';
 
@@ -6,7 +10,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()
@@ -18,6 +22,16 @@ export class User extends BaseEntity {
     const { username, password } = authCredentialsDto;
 
     const user = User.create({ username, password });
-    await user.save();
+
+    try {
+      await user.save();
+    } catch (err) {
+      // Duplicate username.
+      if (err.code === '23505') {
+        throw new ConflictException('Username already exists.');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
