@@ -2,6 +2,7 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { AuthCredentialsDto } from '../dto/auth-credentials.dto';
 
@@ -21,7 +22,10 @@ export class User extends BaseEntity {
   ): Promise<void> {
     const { username, password } = authCredentialsDto;
 
-    const user = User.create({ username, password });
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = User.create({ username, password: hashedPassword });
 
     try {
       await user.save();
