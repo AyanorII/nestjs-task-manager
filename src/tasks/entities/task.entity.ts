@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   BaseEntity,
   Column,
@@ -23,5 +24,6 @@ export class Task extends BaseEntity {
   status: TaskStatus;
 
   @ManyToOne(() => User, (user) => user.tasks, { eager: false })
+  @Exclude({ toPlainOnly: true }) // Whenever the response is JSON (it interprets as plain text), exclude de 'user' property of the JSON object.
   user: User;
 }
