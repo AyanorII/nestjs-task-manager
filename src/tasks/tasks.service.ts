@@ -21,8 +21,11 @@ export class TasksService {
     return task;
   }
 
-  async findAll(): Promise<Task[]> {
-    const tasks = await Task.find();
+  async findAll(user: User): Promise<Task[]> {
+    const query = Task.createQueryBuilder('task');
+    query.where({ user });
+
+    const tasks = await query.getMany();
     return tasks;
   }
 

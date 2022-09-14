@@ -30,8 +30,8 @@ export class TasksController {
   }
 
   @Get()
-  async findAll(): Promise<Task[]> {
-    return this.tasksService.findAll();
+  async findAll(@GetUser() user: User): Promise<Task[]> {
+    return this.tasksService.findAll(user);
   }
 
   @Get(':id')
