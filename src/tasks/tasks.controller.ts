@@ -49,7 +49,7 @@ export class TasksController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
-    return this.tasksService.remove(id);
+  async remove(@Param('id') id: number, @GetUser() user: User): Promise<void> {
+    return this.tasksService.remove(id, user);
   }
 }

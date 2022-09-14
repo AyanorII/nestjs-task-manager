@@ -55,13 +55,16 @@ export class TasksService {
     return task;
   }
 
-  async remove(id: number): Promise<void> {
-    // Using delete() instead of remove() because the latter needs an instance of the entity, so we would need to make one extra query to find the instance, then another one to remove it. With delete(), we just need the ID of the instance we want to remove.
-    const result = await Task.delete(id);
+  async remove(id: number, user: User): Promise<void> {
+    const query = Task.createQueryBuilder('task');
+    query.where({ id }).andWhere({ user });
 
-    // Checks if the number of deleted rows is 0, which means that the task with the given ID does not exist and throws a NotFoundException
-    if (result.affected === 0) {
+    const task = await query.getOne();
+
+    if (!task) {
       throw new NotFoundException(`Task with ID '${id}' not found`);
     }
+
+    await task.remove();
   }
 }
