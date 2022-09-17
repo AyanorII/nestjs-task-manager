@@ -3,8 +3,8 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 export const config: PostgresConnectionOptions = {
   type: 'postgres',
   host: 'localhost',
-  port: 5532,
-  username: 'postgres',
+  port: 5432,
+  username: 'ayanori',
   password: 'postgres',
   database: 'task-management',
   synchronize: true,
