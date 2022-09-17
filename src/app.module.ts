@@ -26,6 +26,7 @@ import { TasksModule } from './tasks/tasks.module';
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
         };
       },
     }),
